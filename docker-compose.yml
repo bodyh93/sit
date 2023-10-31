@@ -1,0 +1,32 @@
+version: "3"
+services:
+  nginx-sit:
+    image: nginx:stable-alpine
+    container_name: nginx-sit
+    ports:
+      - "80:80"
+    environment:
+      - NGINX_HOST=sit.loc
+      - NGINX_PORT=80
+    volumes:
+      - './docker/nginx/default.conf:/etc/nginx/conf.d/default.conf'
+      - './:/var/www/sit'
+      - './logs/nginx:/var/log/nginx'
+  php-sit:
+    build:
+      context: .
+      dockerfile: './docker/php/Dockerfile'
+    container_name: php-sit
+    working_dir: /var/www/sit
+    volumes:
+      - './:/var/www/sit'
+      - './docker/php/php.ini:/usr/local/etc/php/php.ini'
+  mariadb-sit:
+    image: mariadb
+    container_name: mariadb-sit
+    ports:
+      - "3306:3306"
+    environment:
+      MARIADB_DATABASE: sit
+      MARIADB_USER: root
+      MARIADB_ROOT_PASSWORD: root
