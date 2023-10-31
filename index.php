@@ -11,5 +11,9 @@
     <input type="date" name="birthDate" placeholder="Your birthday">
     <input type="submit" name="submit">
 </form>
+<p>
+    <?= array_key_exists('message', $_GET) ? $_GET['message'] : '' ?>
+</p>
 </body>
 </html>
+
